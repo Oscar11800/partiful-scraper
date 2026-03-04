@@ -52,7 +52,9 @@ def parse_args():
 
     if not args.output:
         stem = Path(args.input).stem
-        args.output = f"{stem}_linkedin.csv"
+        output_dir = Path("output")
+        output_dir.mkdir(exist_ok=True)
+        args.output = str(output_dir / f"{stem}_linkedin.csv")
 
     return args
 

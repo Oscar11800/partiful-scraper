@@ -1,107 +1,54 @@
 # Partiful Scraper
 
-Extract attendee names from Partiful event pages and find their LinkedIn profiles.
-
-## How It Works
-
-**Step 1: Extract names** from a Partiful event using the Chrome extension (one click).
-
-**Step 2: Find LinkedIn profiles** by running the search script with the downloaded CSV.
+Extract attendee names from Partiful events and find their LinkedIn profiles.
 
 ---
 
-## Setup
+## Step 1: Extract Names (Chrome Extension)
 
-### Prerequisites
+1. Open `chrome://extensions`, turn on **Developer mode** (top-right)
+2. Click **Load unpacked** → select the `extension` folder
+3. Go to a Partiful event → click **"View all"** on the guest list
+4. Click the extension icon in your toolbar → **Extract Names**
+5. CSV downloads automatically
 
-- Python 3.8+
-- Google Chrome
-- `pip install -r requirements.txt`
-
-### Install the Chrome Extension
-
-1. Open Chrome and go to `chrome://extensions`
-2. Enable **Developer mode** (toggle in top-right)
-3. Click **Load unpacked** and select the `extension/` folder from this repo
-4. You should see "Partiful Name Extractor" appear
+> **Sharing:** Zip the `extension` folder and send it to anyone. They follow steps 1-5.
 
 ---
 
-## Usage
+## Step 2: Find LinkedIn Profiles (Optional)
 
-### Step 1: Extract Names from Partiful
-
-1. Go to a Partiful event page (`partiful.com/e/...`)
-2. Make sure you're logged in and can see the guest list
-3. Click the purple **Extract Names** button (bottom-right corner)
-4. A CSV file downloads automatically
-
-### Step 2: Search for LinkedIn Profiles
+### Setup (one time)
 
 ```bash
-python google_linkedin_search.py partiful_names_2025-02-28.csv
+cd partiful-scraper
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-This will:
-- Open a Chrome window
-- Search Google for each name + "san francisco" + "linkedin"
-- Save results to `partiful_names_2025-02-28_linkedin.csv`
+> On subsequent runs, just activate the venv: `source venv/bin/activate`
 
-#### Options
+### Run
 
 ```bash
-# Custom output file
-python google_linkedin_search.py names.csv -o results.csv
-
-# Slower searches (if getting blocked by Google)
-python google_linkedin_search.py names.csv --delay 3
+python scripts/google_linkedin_search.py input/your_file.csv
 ```
 
-#### CAPTCHA Handling
+A Chrome window opens, searches each name, and saves results to `output/your_file_linkedin.csv`.
 
-Google may show a CAPTCHA after many searches. When this happens:
-1. The script pauses automatically
-2. Solve the CAPTCHA in the browser window
-3. The script detects it's solved and continues
+Add `--delay 3` if Google starts blocking. Press `Ctrl+C` to stop — progress is saved.
 
-You can also signal manually: `touch captcha_solved`
-
-Safe to interrupt anytime with `Ctrl+C` -- progress is saved after each search.
+If a CAPTCHA appears, solve it in the browser window. The script continues automatically.
 
 ---
 
-## Alternative: Manual Name Input
+## Troubleshooting
 
-If you can't use the Chrome extension, use `names_to_csv.py` to create the input CSV:
-
-```bash
-# Paste names interactively (Ctrl+D when done)
-python names_to_csv.py
-
-# From a text file (one name per line)
-python names_to_csv.py -f raw_names.txt
-
-# Custom output name
-python names_to_csv.py -o my_event.csv
-```
-
-Or use the DevTools console script directly by pasting the contents of `name_scrape.js` into your browser console on a Partiful event page.
-
----
-
-## File Structure
-
-```
-partiful-scraper/
-├── extension/              # Chrome extension for name extraction
-│   ├── manifest.json
-│   ├── content.js
-│   ├── popup.html
-│   ├── styles.css
-│   └── icon48.png
-├── google_linkedin_search.py   # Step 2: Google -> LinkedIn URL lookup
-├── names_to_csv.py             # Helper: raw names -> CSV
-├── name_scrape.js              # DevTools console script (manual fallback)
-├── requirements.txt
-└── README.md
-```
+| Problem | Fix |
+|---------|-----|
+| Extension icon missing | Turn on Developer mode in `chrome://extensions` |
+| Extract button not showing | Open the guest list first (click "View all") |
+| No names found | Must be logged in and RSVP'd |
+| Google blocking | Add `--delay 5` to the command |
+| Python errors | Run `source venv/bin/activate` first |

@@ -3,9 +3,11 @@ __pycache__/
 *.pyc
 .DS_Store
 captcha_solved
+
+# Data (keep local, not in repo)
 aden_csv/
-*_linkedin.csv
-*_results*.csv
-partiful_names_*.csv
 input/
 output/
+
+# Store assets (screenshots, zips -- rebuild from source)
+store_assets/
