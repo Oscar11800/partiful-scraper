@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Partiful Name Extractor",
+  "version": "1.0",
+  "description": "Extract attendee names from Partiful event pages and download as CSV.",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://partiful.com/e/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon48.png"
+    }
+  },
+  "icons": {
+    "48": "icon48.png"
+  }
+}

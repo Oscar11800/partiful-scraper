@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+captcha_solved
+aden_csv/
+*_linkedin.csv
+*_results*.csv
+partiful_names_*.csv
