@@ -7,3 +7,5 @@ aden_csv/
 *_linkedin.csv
 *_results*.csv
 partiful_names_*.csv
+input/
+output/
