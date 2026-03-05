@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Partiful Name Extractor",
-  "version": "1.0",
-  "description": "Extract attendee names from Partiful event pages and download as CSV.",
-  "permissions": ["activeTab", "scripting"],
+  "version": "2.0",
+  "description": "Extract attendee names from Partiful events and find their LinkedIn profiles.",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "host_permissions": ["https://www.google.com/*"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
