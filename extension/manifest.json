@@ -1,10 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Partiful Name Extractor",
+  "name": "Partiful LI Scraper",
   "version": "2.0",
   "description": "Extract attendee names from Partiful events and find their LinkedIn profiles.",
   "permissions": ["activeTab", "scripting", "tabs"],
   "host_permissions": ["https://www.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

@@ -25,66 +25,52 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .btn:disabled {
-      opacity: 0.7;
-      cursor: wait;
-    }
-    .btn-primary {
-      background: #6c5ce7;
-      color: #fff;
-    }
+    .btn:disabled { opacity: 0.7; cursor: wait; }
+    .btn-primary { background: #6c5ce7; color: #fff; }
     .btn-primary:hover:not(:disabled) { background: #5b4bd5; }
-    .btn-secondary {
-      background: #e9e6f7;
-      color: #6c5ce7;
-      margin-top: 8px;
-    }
+    .btn-secondary { background: #e9e6f7; color: #6c5ce7; margin-top: 8px; }
     .btn-secondary:hover:not(:disabled) { background: #ddd8f3; }
-    #ready-view, #names-view { display: none; }
-    #instructions-view { display: none; }
-    #loading-view { text-align: center; color: #999; padding: 8px 0; }
-    #progress-container {
-      margin-top: 12px;
-      display: none;
-    }
-    #progress-bar-bg {
+    .btn-stop { background: #e74c3c; color: #fff; margin-top: 8px; }
+    .btn-stop:hover:not(:disabled) { background: #c0392b; }
+    .btn-reset { background: #e9e6f7; color: #666; margin-top: 8px; }
+    .btn-reset:hover { background: #ddd8f3; }
+    .view { display: none; }
+    #loading-view { text-align: center; color: #999; padding: 8px 0; display: block; }
+    .progress-container { margin-top: 12px; }
+    .progress-bar-bg {
       width: 100%;
       height: 6px;
       background: #e9e6f7;
       border-radius: 3px;
       overflow: hidden;
     }
-    #progress-bar {
+    .progress-bar {
       height: 100%;
       width: 0%;
       background: #6c5ce7;
       border-radius: 3px;
       transition: width 0.3s ease;
     }
-    #progress-label {
+    .progress-label {
       margin-top: 6px;
       font-size: 12px;
       color: #666;
     }
-    #status {
+    .status {
       margin-top: 10px;
       font-size: 12px;
       color: #666;
       min-height: 18px;
     }
-    #status.error { color: #e74c3c; }
-    #status.success { color: #27ae60; }
-    #status.warn { color: #e67e22; }
+    .status.error { color: #e74c3c; }
+    .status.success { color: #27ae60; }
     .instructions {
       padding: 10px;
       background: #f8f7ff;
       border-radius: 8px;
       line-height: 1.6;
     }
-    .instructions ol {
-      margin: 0;
-      padding-left: 20px;
-    }
+    .instructions ol { margin: 0; padding-left: 20px; }
     .instructions li { margin-bottom: 4px; }
     .name-count {
       font-size: 14px;
@@ -104,11 +90,11 @@
   </style>
 </head>
 <body>
-  <h2>Partiful Name Extractor</h2>
+  <h2>Partiful LI Scraper</h2>
 
-  <div id="loading-view">Checking page...</div>
+  <div id="loading-view" class="view" style="display:block">Checking...</div>
 
-  <div id="instructions-view">
+  <div id="instructions-view" class="view">
     <div class="instructions">
       <ol>
         <li>Go to a Partiful event page</li>
@@ -119,29 +105,43 @@
     </div>
   </div>
 
-  <div id="ready-view">
+  <div id="ready-view" class="view">
     <button id="extract-btn" class="btn btn-primary">Extract Names</button>
-    <div id="progress-container">
-      <div id="progress-bar-bg"><div id="progress-bar"></div></div>
-      <div id="progress-label"></div>
-    </div>
-    <div id="status"></div>
   </div>
 
-  <div id="names-view">
+  <div id="extracting-view" class="view">
+    <div class="progress-container">
+      <div class="progress-bar-bg"><div id="extract-progress" class="progress-bar"></div></div>
+      <div id="extract-label" class="progress-label"></div>
+    </div>
+    <button id="stop-extract-btn" class="btn btn-stop">Stop</button>
+  </div>
+
+  <div id="names-view" class="view">
     <div id="name-count" class="name-count"></div>
     <button id="linkedin-btn" class="btn btn-primary">Search LinkedIn & Download</button>
     <button id="names-only-btn" class="btn btn-secondary">Download Names Only</button>
-    <div id="progress-container-li">
-      <div id="progress-bar-bg-li" style="width:100%;height:6px;background:#e9e6f7;border-radius:3px;overflow:hidden;margin-top:12px">
-        <div id="progress-bar-li" style="height:100%;width:0%;background:#6c5ce7;border-radius:3px;transition:width 0.3s ease"></div>
-      </div>
-      <div id="progress-label-li" style="margin-top:6px;font-size:12px;color:#666"></div>
+  </div>
+
+  <div id="linkedin-view" class="view">
+    <div class="progress-container">
+      <div class="progress-bar-bg"><div id="li-progress" class="progress-bar"></div></div>
+      <div id="li-label" class="progress-label"></div>
     </div>
     <div id="captcha-note" class="captcha-note">
-      CAPTCHA detected! Solve it in the Google tab, then come back here. The search will continue automatically.
+      CAPTCHA detected! Solve it in the Google tab. The search will continue automatically.
     </div>
-    <div id="status-li" class="status"></div>
+    <button id="stop-li-btn" class="btn btn-stop">Stop & Download Progress</button>
+  </div>
+
+  <div id="done-view" class="view">
+    <div id="done-status" class="status success"></div>
+    <button id="reset-btn" class="btn btn-reset">Start Over</button>
+  </div>
+
+  <div id="error-view" class="view">
+    <div id="error-status" class="status error"></div>
+    <button id="retry-btn" class="btn btn-reset">Try Again</button>
   </div>
 
   <script src="popup.js"></script>
